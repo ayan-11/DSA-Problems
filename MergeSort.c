@@ -1,55 +1,102 @@
 #include <stdio.h>
+#include <stdlib.h>
+void merge(int a[], int p,int q, int r)
+{
+	int i, j, k;
+	int n1 = q - p + 1;
+	int n2 = r - q;
 
-#define max 10
+	// Create temp arrays
+	int L[n1], R[n2];
 
-int a[11] = { 10, 14, 19, 26, 27, 31, 33, 35, 42, 44, 0 };
-int b[10];
+	// Copy data to temp arrays
+	// L[] and R[]
+	for (i = 0; i < n1; i++)
+		L[i] = a[p + i];
+	for (j = 0; j < n2; j++)
+		R[j] = a[q + 1 + j];
 
-void merging(int low, int mid, int high) {
-   int l1, l2, i;
+	// Merge the temp arrays back
+	// into arr[l..r]
+	// Initial index of first subarray
+	i = 0;
 
-   for(l1 = low, l2 = mid + 1, i = low; l1 <= mid && l2 <= high; i++) {
-      if(a[l1] <= a[l2])
-         b[i] = a[l1++];
-      else
-         b[i] = a[l2++];
-   }
-   
-   while(l1 <= mid)    
-      b[i++] = a[l1++];
+	// Initial index of second subarray
+	j = 0;
 
-   while(l2 <= high)   
-      b[i++] = a[l2++];
+	// Initial index of merged subarray
+	k = p;
+	while (i < n1 && j < n2)
+	{
+		if (L[i] <= R[j])
+		{
+			a[k] = L[i];
+			i++;
+		}
+		else
+		{
+			a[k] = R[j];
+			j++;
+		}
+		k++;
+	}
 
-   for(i = low; i <= high; i++)
-      a[i] = b[i];
+	// Copy the remaining elements
+	// of L[], if there are any
+	while (i < n1) {
+		a[k] = L[i];
+		i++;
+		k++;
+	}
+
+	// Copy the remaining elements of
+	// R[], if there are any
+	while (j < n2)
+	{
+		a[k] = R[j];
+		j++;
+		k++;
+	}
 }
 
-void sort(int low, int high) {
-   int mid;
-   
-   if(low < high) {
-      mid = (low + high) / 2;
-      sort(low, mid);
-      sort(mid+1, high);
-      merging(low, mid, high);
-   } else { 
-      return;
-   }   
+// l is for left index and r is
+// right index of the sub-array
+// of arr to be sorted
+void mergeSort(int arr[],
+			int l, int r)
+{
+	if (l < r)
+	{
+		// Same as (l+r)/2, but avoids
+		// overflow for large l and h
+		int m = l + (r - l) / 2;
+
+		// Sort first and second halves
+		mergeSort(arr, l, m);
+		mergeSort(arr, m + 1, r);
+
+		merge(arr, l, m, r);
+	}
 }
 
-int main() { 
-   int i;
+// UTILITY FUNCTIONS
+// Function to print an array
 
-   printf("List before sorting\n");
-   
-   for(i = 0; i <= max; i++)
-      printf("%d ", a[i]);
-
-   sort(0, max);
-
-   printf("\nList after sorting\n");
-   
-   for(i = 0; i <= max; i++)
-      printf("%d ", a[i]);
+// Driver code
+int main() {
+    int n,i,j,a[100];
+    printf("Number of elements:- ");
+    scanf("%d",&n);
+    printf("Enter the elements:- ");
+    for(i=0;i<n;i++)
+    {
+        scanf("%d",&a[i]);
+    }
+    mergeSort(a,0,n-1);
+    printf("Elements after Sorting:- ");
+    for(i=0;i<n;i++)
+    {
+        printf("%d ",a[i]);
+    }
+    return 0;
 }
