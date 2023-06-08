@@ -1,38 +1,68 @@
-#include<stdio.h>
-void quicksort(int number[25],int first,int last){
-   int i, j, pivot, temp;
-   if(first<last){
-      pivot=first;
-      i=first;
-      j=last;
-      while(i<j){
-         while(number[i]<=number[pivot]&&i<last)
-         i++;
-         while(number[j]>number[pivot])
-         j--;
-         if(i<j){
-            temp=number[i];
-            number[i]=number[j];
-            number[j]=temp;
-         }
-      }
-      temp=number[pivot];
-      number[pivot]=number[j];
-      number[j]=temp;
-      quicksort(number,first,j-1);
-      quicksort(number,j+1,last);
-   }
+// C code to implement quicksort
+
+#include <stdio.h>
+
+// Function to swap two elements
+void swap(int* a, int* b)
+{
+	int t = *a;
+	*a = *b;
+	*b = t;
 }
-int main(){
-   int i, count, number[25];
-   printf("How many elements are u going to enter?: ");
-   scanf("%d",&count);
-   printf("Enter %d elements: ", count);
-   for(i=0;i<count;i++)
-   scanf("%d",&number[i]);
-   quicksort(number,0,count-1);
-   printf("Order of Sorted elements: ");
-   for(i=0;i<count;i++)
-   printf(" %d",number[i]);
-   return 0;
+
+// Partition the array using the last element as the pivot
+int partition(int arr[], int p, int r)
+{
+	// Choosing the pivot
+	int x = arr[r];
+
+	// Index of smaller element and indicates
+	// the right position of pivot found so far
+	int i = (p - 1);
+
+	for (int j = p; j <= r - 1; j++) {
+
+		// If current element is smaller than the pivot
+		if (arr[j] < x) {
+
+			// Increment index of smaller element
+			i++;
+			swap(&arr[i], &arr[j]);
+		}
+	}
+	swap(&arr[i + 1], &arr[r]);
+	return (i + 1);
+}
+
+// The main function that implements QuickSort
+// arr[] --> Array to be sorted,
+// low --> Starting index,
+// high --> Ending index
+void quickSort(int arr[], int p, int r)
+{
+	if (p < r) {
+
+		// pi is partitioning index, arr[p]
+		// is now at right place
+		int q = partition(arr, p, r);
+
+		// Separately sort elements before
+		// partition and after partition
+		quickSort(arr, p, q - 1);
+		quickSort(arr, q + 1, r);
+	}
+}
+
+// Driver code
+int main()
+{
+	int arr[] = { 10, 7, 8, 9, 1, 5 };
+	int N = sizeof(arr) / sizeof(arr[0]);
+
+	// Function call
+	quickSort(arr, 0, N - 1);
+	printf("Sorted array: \n");
+	for (int i = 0; i < N; i++)
+		printf("%d ", arr[i]);
+	return 0;
 }
