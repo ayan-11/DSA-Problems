@@ -1,45 +1,39 @@
 #include <stdio.h>
+void bubblesort(int a[], int l)
+{
+    int i,j,temp;
+    for(i = 0; i < l - 1; i++){       
 
-int main(){
+        for(j = 0; j < l - i - 1; j++){          
 
-    int arr[50], num, x, y, temp;    
+            if(a[j] > a[j + 1]){               
 
-    printf("Please Enter the Number of Elements you want in the array: ");
+                temp = a[j];
 
-    scanf("%d", &num);    
+                a[j] = a[j + 1];
 
-    printf("Please Enter the Value of Elements: ");
-
-    for(x = 0; x < num; x++)
-
-        scanf("%d", &arr[x]);
-
-    for(x = 0; x < num - 1; x++){       
-
-        for(y = 0; y < num - x - 1; y++){          
-
-            if(arr[y] > arr[y + 1]){               
-
-                temp = arr[y];
-
-                arr[y] = arr[y + 1];
-
-                arr[y + 1] = temp;
+                a[j + 1] = temp;
 
             }
 
         }
 
     }
-
-    printf("Array after implementing bubble sort: ");
-
-    for(x = 0; x < num; x++){
-
-        printf("%d  ", arr[x]);
-
+}
+int main() {
+    int n,i,j,a[100];
+    printf("Number of elements:- ");
+    scanf("%d",&n);
+    printf("Enter the elements:- ");
+    for(i=0;i<n;i++)
+    {
+        scanf("%d",&a[i]);
     }
-
+    bubblesort(a,n);
+    printf("Elements after Sorting:- ");
+    for(i=0;i<n;i++)
+    {
+        printf("%d ",a[i]);
+    }
     return 0;
-
 }
