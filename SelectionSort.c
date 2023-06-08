@@ -1,21 +1,34 @@
 #include <stdio.h>
-int main() {
-   int arr[10]={6,12,0,18,11,99,55,45,34,2};
-   int n=10;
+void selectionsort(int a[], int l)
+{
    int i, j, position, swap;
-   for (i = 0; i < (n - 1); i++) {
+   for (i = 0; i < (l - 1); i++) {
       position = i;
-      for (j = i + 1; j < n; j++) {
-         if (arr[position] > arr[j])
+      for (j = i + 1; j < l; j++) {
+         if (a[position] > a[j])
             position = j;
       }
       if (position != i) {
-         swap = arr[i];
-         arr[i] = arr[position];
-         arr[position] = swap;
+         swap = a[i];
+         a[i] = a[position];
+         a[position] = swap;
       }
    }
-   for (i = 0; i < n; i++)
-      printf("%d\t", arr[i]);
-   return 0;
+}
+int main() {
+    int n,i,j,a[100];
+    printf("Number of elements:- ");
+    scanf("%d",&n);
+    printf("Enter the elements:- ");
+    for(i=0;i<n;i++)
+    {
+        scanf("%d",&a[i]);
+    }
+    selectionsort(a,n);
+    printf("Elements after Sorting:- ");
+    for(i=0;i<n;i++)
+    {
+        printf("%d ",a[i]);
+    }
+    return 0;
 }
